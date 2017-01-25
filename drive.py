@@ -7,6 +7,7 @@ import socketio
 import eventlet
 import eventlet.wsgi
 import time
+import cv2
 from PIL import Image
 from PIL import ImageOps
 from flask import Flask, render_template
@@ -37,11 +38,31 @@ def telemetry(sid, data):
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
     image_array = np.asarray(image)
+
+    ##########################################################################
+    # perform processing on image
+    # crop image to a new size
+    image_array = image_array[20:140,50:270]
+    # image_array = image_array[60:130, 50:250]
+    # image_array = image_array[20:140,:]
+    image_array = cv2.resize(image_array, (200,66))
+    image_array = cv2.cvtColor(image_array,cv2.COLOR_RGB2HSV)
+
+    # vivek's pipeline
+    # shape = image_array.shape
+    # note: numpy arrays are (row, col)!
+    # image_array = image_array[np.floor(shape[0]/5):shape[0]-25, 0:shape[1]]
+    # image_array = cv2.resize(image_array,(64,64), interpolation=cv2.INTER_AREA)
+
+    # image_array = image_array/127.5 - 1
+
+    ##########################################################################
+
     transformed_image_array = image_array[None, :, :, :]
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
-    throttle = 0.2
+    throttle = 0.27
     print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
@@ -68,10 +89,10 @@ if __name__ == '__main__':
         # NOTE: if you saved the file by calling json.dump(model.to_json(), ...)
         # then you will have to call:
         #
-        #   model = model_from_json(json.loads(jfile.read()))\
+        model = model_from_json(json.loads(jfile.read()))\
         #
         # instead.
-        model = model_from_json(jfile.read())
+        # model = model_from_json(jfile.read())
 
 
     model.compile("adam", "mse")

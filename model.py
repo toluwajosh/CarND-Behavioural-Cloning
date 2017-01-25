@@ -1,32 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @toluwajosh
-
-320
-2,781
-
-    781
-
-commaai/research
-Code
-Issues 9
-Pull requests 3
-Projects 0
-Wiki
-Pulse
-Graphs
-research/train_steering_model.py
-2a80c9b on Aug 18, 2016
-@rocfig rocfig typo
-@rocfig
-@espes
-executable file 78 lines (64 sloc) 2.58 KB
 #!/usr/bin/env python
 """
 Steering angle prediction model
@@ -104,8 +75,3 @@ if __name__ == "__main__":
   model.save_weights("./outputs/steering_model/steering_angle.keras", True)
   with open('./outputs/steering_model/steering_angle.json', 'w') as outfile:
     json.dump(model.to_json(), outfile)
-
-    Contact GitHub API Training Shop Blog About 
-
-    © 2017 GitHub, Inc. Terms Privacy Security Status Help 
-
