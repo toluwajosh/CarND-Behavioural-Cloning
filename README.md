@@ -44,9 +44,9 @@ The following are the processing steps carried on the data:
 
 3. **Randomly flip image:** In other to balance left and right images, we randomly flip images and change sign on the steering angles. The following figure shows the view from the left, right and center cameras after been jittered, cropped, and angles corrected. The right camera view has been flipped so it looks like a left camera image.
 
-![Camera Views (after processing)](media/camera_views.jpg)
-
 4. **Brightness Augmentation** We simulate different brightness occasions by converting image to HSV channel and randomly scaling the V channel.
+
+![Camera Views (after processing)](media/camera_views.jpg)
 
 Plotting a sample of 10,000 processed images shows a more balanced distribution of the steering angles after processing:
 ![Samples Histogram (after processing)](media/processed_data_sample_hist.jpg)
