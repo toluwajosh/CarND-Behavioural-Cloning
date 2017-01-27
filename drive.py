@@ -40,21 +40,14 @@ def telemetry(sid, data):
     image_array = np.asarray(image)
 
     ##########################################################################
-    # perform processing on image
+    # perform pre-rocessing on image
     # crop image to a new size
-    image_array = image_array[20:140,50:270]
     # image_array = image_array[60:130, 50:250]
     # image_array = image_array[20:140,:]
+    image_array = image_array[20:140,50:270]
     image_array = cv2.resize(image_array, (200,66))
     image_array = cv2.cvtColor(image_array,cv2.COLOR_RGB2HSV)
 
-    # vivek's pipeline
-    # shape = image_array.shape
-    # note: numpy arrays are (row, col)!
-    # image_array = image_array[np.floor(shape[0]/5):shape[0]-25, 0:shape[1]]
-    # image_array = cv2.resize(image_array,(64,64), interpolation=cv2.INTER_AREA)
-
-    # image_array = image_array/127.5 - 1
 
     ##########################################################################
 
