@@ -37,13 +37,16 @@ Udacity provided a set of training data (24,108 datasets) which can be downloade
 Data processing is done to allow our model to be able to easily work with raw data for training. In this project, the data processing is built into a generator (keras *fit_generator*) to allow for real-time processing of the data. The advantage here is that, in the case that we are working with a very large amount of data, the whole dataset is not loaded into memory, we can therefore work with a manageable batch of data at a time. Hence the generator is run in parallel to the model, for efficiency.
 
 The following are the processing steps carried on the data:
+
 1. **Randomly choose from center, left and right  camera images:** The simulator provides three camera views namely; center, left and right views. Since we are required to use only one camera view, we choose randomly from the three views. While using the left and right images, we add and subtract 0.25 to the steering angles respectively to make up for the camera offsets [[1]](https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9#.5dpi87xzi).
-1. **Translate image (Jitter) and compensate for steering angles:** Since the original image size is 160x320 pixels, we randomly translate image to the left or right and compensate for the translation in the steering angles with 0.008 per pixel of translation. We then crop a region of interest of 120x220 pixel from the image. *Note that I only translated in the horizontal direction for my solution.*
-1. **Randomly flip image:** In other to balance left and right images, we randomly flip images and change sign on the steering angles. The following figure shows the view from the left, right and center cameras after been jittered, cropped, and angles corrected. The right camera view has been flipped so it looks like a left camera image.
+
+2. **Translate image (Jitter) and compensate for steering angles:** Since the original image size is 160x320 pixels, we randomly translate image to the left or right and compensate for the translation in the steering angles with 0.008 per pixel of translation. We then crop a region of interest of 120x220 pixel from the image. *Note that I only translated in the horizontal direction for my solution.*
+
+3. **Randomly flip image:** In other to balance left and right images, we randomly flip images and change sign on the steering angles. The following figure shows the view from the left, right and center cameras after been jittered, cropped, and angles corrected. The right camera view has been flipped so it looks like a left camera image.
 
 ![Camera Views (after processing)](media/camera_views.jpg)
 
-1. **Brightness Augmentation** We simulate different brightness occasions by converting image to HSV channel and randomly scaling the V channel.
+4. **Brightness Augmentation** We simulate different brightness occasions by converting image to HSV channel and randomly scaling the V channel.
 
 Plotting a sample of 10,000 processed images shows a more balanced distribution of the steering angles after processing:
 ![Samples Histogram (after processing)](media/processed_data_sample_hist.jpg)
