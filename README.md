@@ -25,11 +25,11 @@ This project is influenced by [nvidia paper](https://images.nvidia.com/content/t
 
 The simulator has two modes - Training mode and Autonomous mode. Training mode is used to collect training data by driving through the tracks and recording the driving data in a folder. The Autonomous mode is used to test a trained model. 
 
-![Simulator splash screen](../media/simulator_splash.png)
+![Simulator splash screen](media/simulator_splash.png)
 
 Udacity provided a set of training data (24,108 datasets) which can be downloaded with the simulator. I thought that the Udacity datasets might not be enough so I recorded my own training data (104,145 datasets) and would use the Udacity datasets for validation. Plotting an histogram of 10,000 samples of the training data shows that the data from track 1 has more 0 and left steering angles because of the nature of the track, so our processing step will also include data augmentation and balancing, in other to prevent our model from being biased towards driving straight and left turns.
 
-![Samples Histogram (before processing)](../media/raw_data_sample_hist.jpg)
+![Samples Histogram (before processing)](media/raw_data_sample_hist.jpg)
 
 
 ## 2. Data processing
@@ -41,19 +41,19 @@ The following are the processing steps carried on the data:
 1. **Translate image (Jitter) and compensate for steering angles:** Since the original image size is 160x320 pixels, we randomly translate image to the left or right and compensate for the translation in the steering angles with 0.008 per pixel of translation. We then crop a region of interest of 120x220 pixel from the image. *Note that I only translated in the horizontal direction for my solution.*
 1. **Randomly flip image:** In other to balance left and right images, we randomly flip images and change sign on the steering angles. The following figure shows the view from the left, right and center cameras after been jittered, cropped, and angles corrected. The right camera view has been flipped so it looks like a left camera image.
 
-![Camera Views (after processing)](../media/camera_views.jpg)
+![Camera Views (after processing)](media/camera_views.jpg)
 
 1. **Brightness Augmentation** We simulate different brightness occasions by converting image to HSV channel and randomly scaling the V channel.
 
 Plotting a sample of 10,000 processed images shows a more balanced distribution of the steering angles after processing:
-![Samples Histogram (after processing)](../media/processed_data_sample_hist.jpg)
+![Samples Histogram (after processing)](media/processed_data_sample_hist.jpg)
 
 
 ## 3. Model Training
 
 The [Nvidia model][1] was adopted for training, because it gave better result after experimenting with other kinds of model (e.g. comma.ai). The network consists of 9 layers, including a normalization layer, 5 convolutional layers and 3 fully connected layers. Converse to the Nvidia model, input image was split to HSV planes before been passed to the network. 
 
-![Nvidia model](../media/nvidia_network.png)
+![Nvidia model](media/nvidia_network.png)
 
 Image was normalized in the first layer. According to the Nvidia paper, this enables normalization also to be accelerated via GPU processing.
 
